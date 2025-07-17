@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+
+    iframe {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+
+</body>
+<script>
+  const query = location.search.split('?')[1]
+  const params = new URLSearchParams(query)
+  const code = params.get('c')
+
+  const init = async () => {
+    const res = await fetch(`https://c.c.q16n9di7.top/api/github?c=${code}`)  
+    const data = await res.json()
+    if (data.code === 200) {
+      const iframe = document.createElement('iframe')
+      iframe.src = data.data
+      document.title = data.title
+      document.body.appendChild(iframe)
+    }
+    else {
+      document.title = '页面不存在'
+      document.body.innerHTML = `
+        <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+          <h1>页面不存在</h1>
+        </div>
+      `
+    }
+  }
+
+  if (code) {
+    init()
+  }
+</script>
+
+</html>
